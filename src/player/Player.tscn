@@ -1,12 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/rei_plush_-_neon_genesis_evangelion.glb" type="PackedScene" id=2]
+[ext_resource path="res://src/player/camera/CameraRig.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://assets/testing-patterns/Light/texture_08.png" type="Texture" id=5]
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
 flags_world_triplanar = true
-albedo_color = Color( 0.105882, 0.0823529, 0.772549, 0.407843 )
+albedo_color = Color( 0.988235, 0.831373, 0.4, 0.588235 )
+albedo_texture = ExtResource( 5 )
 uv1_triplanar = true
 
 [sub_resource type="SphereMesh" id=1]
@@ -14,14 +18,20 @@ uv1_triplanar = true
 [sub_resource type="SphereShape" id=2]
 
 [node name="Player" type="RigidBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01103, 0 )
+collision_mask = 3
+mode = 3
+gravity_scale = 1.5
 continuous_cd = true
 contacts_reported = 1
 contact_monitor = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
 script = ExtResource( 1 )
-speed = 25.0
 
-[node name="rei_plush_-_neon_genesis_evangelion" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, -0.632777, 0.00294244 )
+[node name="Rei" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1.5, 0, -1.31134e-07, 0, 1.5, 0, 1.31134e-07, 0, -1.5, 0, -0.632777, 0.00294244 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 material_override = SubResource( 3 )
@@ -33,3 +43,23 @@ shape = SubResource( 2 )
 [node name="GroundRay" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000179768, -0.427184, 3.02792e-05 )
 enabled = true
+collision_mask = 2
+
+[node name="CameraRig" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.519456, 0 )
+visible = false
+
+[node name="InterpolatedCamera" parent="CameraRig" index="0"]
+transform = Transform( 1, 0, 0, 0, 0.970367, 0.241634, 0, -0.241634, 0.970367, 0, 1.97822, 4.51899 )
+process_mode = 1
+
+[node name="SpringArm" parent="CameraRig" index="1"]
+transform = Transform( 1, 0, 0, 0, 0.94693, 0.321439, 0, -0.321439, 0.94693, 0, 0, 0 )
+
+[node name="AimTarget" parent="CameraRig" index="2"]
+texture = ExtResource( 4 )
+
+[node name="StateMachine" parent="CameraRig" index="3"]
+inital_state = NodePath("Camera/Default")
+
+[editable path="CameraRig"]

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/texture_08.png-9598c02c5d441b396482411b26c99295.s3tc.stex"
-path.etc2="res://.import/texture_08.png-9598c02c5d441b396482411b26c99295.etc2.stex"
+path.s3tc="res://.import/reticle.png-82034ac855365a76f8f31dfc0b0190e4.s3tc.stex"
+path.etc2="res://.import/reticle.png-82034ac855365a76f8f31dfc0b0190e4.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/testing-patterns/Purple/texture_08.png"
-dest_files=[ "res://.import/texture_08.png-9598c02c5d441b396482411b26c99295.s3tc.stex", "res://.import/texture_08.png-9598c02c5d441b396482411b26c99295.etc2.stex" ]
+source_file="res://assets/2d/reticle.png"
+dest_files=[ "res://.import/reticle.png-82034ac855365a76f8f31dfc0b0190e4.s3tc.stex", "res://.import/reticle.png-82034ac855365a76f8f31dfc0b0190e4.etc2.stex" ]
 
 [params]
 

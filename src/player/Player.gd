@@ -47,7 +47,7 @@ func _physics_process(delta: float) -> void:
 		apply_central_impulse(Vector3.UP * jump_velocity)
 	
 #	if Input.is_action_just_pressed("rotate"):
-	rotate(global_transform.origin + move_direction,3.0)
+	#rotate(global_transform.origin + move_direction,3.0)
 	#look_at(global_transform.origin + move_direction,Vector3.UP)
 	
 	

@@ -1,68 +1,39 @@
-extends RigidBody
+extends KinematicBody
 
-export var jump_velocity = 10
-
-export var speed:= 20.0
-export var max_speed := 50
-
-export var acceleration = 10
-var accel_multiplier = 1.0
-export (float, 0.01,1.0) var stop_speed = 0.1
+var max_speed: = 10
+var move_speed: = 10
+var gravity: = -80.0
+var jump_impulse: = 25.0
 onready var camera:CameraRig = $CameraRig
-onready var groundRay:RayCast = $GroundRay
 
+var velocity: = Vector3.ZERO
 
-var move_direction:Vector3
-var movement_force := Vector3.ZERO
-var input_dir:= Vector3.ZERO
-var is_on_floor = false
+static func get_input_direction() -> Vector3:
+	#map a 2d input vector to 3d space
+	var iv =  Input.get_vector("move_left", "move_right", "move_front", "move_back")
+	return Vector3(iv.x,0.0,iv.y)
 
-func _ready() -> void:
-	linear_damp = 1.0
-	if friction >= 0: friction = 0
-	
 func _physics_process(delta: float) -> void:
-	#get input vector2, map to Vector3
-	var id =  Input.get_vector("move_left", "move_right", "move_front", "move_back")
-	input_dir = Vector3(id.x,0.0,id.y)
-	# change input direction relative to the camera
-	var forwards:Vector3 = camera.global_transform.basis.z * input_dir.z
-	var right:Vector3 = camera.global_transform.basis.x * input_dir.x
-	move_direction = forwards + right
+	var input_direction: = get_input_direction()
+	var forwards:Vector3 = camera.global_transform.basis.z * input_direction.z
+	var right:Vector3 = camera.global_transform.basis.x * input_direction.x
+	var move_direction := forwards + right
 	if move_direction.length() > 1.0:
 		move_direction = move_direction.normalized()
-	#print(move_direction)
-	#make a force based on direction
-	movement_force = lerp(movement_force,move_direction*speed,acceleration *accel_multiplier * delta)
-	add_central_force(movement_force)
+	move_direction.y = 0.0
+
+	if move_direction:
+		look_at(global_transform.origin + move_direction,Vector3.UP)
 	
-	if groundRay.is_colliding():
-		is_on_floor = true
-		#friction = 0.2
-		accel_multiplier = 1.0
-	
-	if Input.is_action_just_pressed("jump") and is_on_floor:
-		accel_multiplier = 2
-		is_on_floor = false
-		apply_central_impulse(Vector3.UP * jump_velocity)
-	
-#	if Input.is_action_just_pressed("rotate"):
-	#rotate(global_transform.origin + move_direction,3.0)
-	#look_at(global_transform.origin + move_direction,Vector3.UP)
-	
+	velocity = calculate_velocity(velocity,move_direction,delta)
+	velocity = move_and_slide(velocity,Vector3.UP)
+	print(velocity)
 	
 
-	
-
-func _input(event: InputEvent) -> void:
-	look_at(global_transform.origin + move_direction,Vector3.UP)
-	
-func _intergrate_forces(state):
-	#limit max speed
-	if state.linear_velocity.length()>max_speed:
-		state.linear_velocity=state.linear_velocity.normalized()*max_speed
-	#artificial stopping movement i.e not using physics
-	if move_direction.length() < 0.2:
-		state.linear_velocity.x = lerp(state.linear_velocity.x,0,stop_speed)
-		state.linear_velocity.z = lerp(state.linear_velocity.z,0,stop_speed)
-	
+func calculate_velocity(velocity_current:Vector3,move_direction:Vector3,delta:float) -> Vector3:
+	var velocity_new:= velocity_current
+	velocity_new = move_direction * move_speed
+	if velocity_new.length() > max_speed:
+		velocity_new = velocity_new.normalized() * max_speed
+	velocity_new.y = velocity_current.y + gravity * delta
+	return velocity_new

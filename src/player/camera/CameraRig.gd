@@ -3,7 +3,7 @@ extends Spatial
 
 class_name CameraRig
 
-var player:RigidBody
+var player:KinematicBody
 
 onready var camera: InterpolatedCamera = $InterpolatedCamera
 onready var spring_arm: SpringArm = $SpringArm

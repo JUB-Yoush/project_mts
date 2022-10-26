@@ -2,7 +2,7 @@ extends CameraState
 
 export var fov_default = 60
 export var is_y_inverted:= false
-export var auto_rotate_speed := 0.005
+export var auto_rotate_speed := 0.0005
 export var deadzone_backwards: = 0.3
 export var sensitivity_gamepad:= Vector2(2.5,2.5)
 export var sensitivity_mouse: =Vector2(0.1,0.1)
@@ -27,8 +27,7 @@ func process(delta: float) -> void:
 		move_direction.x >= -deadzone_backwards and move_direction.x <= deadzone_backwards
 	)
 	if not is_moving_towards_camera and not _is_aiming:
-		pass
-		#auto_rotate(move_direction)
+		auto_rotate(move_direction)
 	
 	camera_rig.rotation.y = wrapf(camera_rig.rotation.y, -PI,PI)
 
@@ -38,16 +37,13 @@ func unhandled_input(event: InputEvent) -> void:
 
 func auto_rotate(move_direction:Vector3) -> void:
 	var offset: float = camera_rig.player.rotation.y - camera_rig.rotation.y
-	#s(camera_rig.player.rotation.y)
 	var target_angle: float = (
 		camera_rig.player.rotation.y -2 * PI if offset > PI
 		else camera_rig.player.rotation.y + 2 * PI if offset < -PI
 		else camera_rig.player.rotation.y
 	
 	)
-	#prints("old",camera_rig.rotation.y)
 	camera_rig.rotation.y = lerp(camera_rig.rotation.y,target_angle,auto_rotate_speed)
-	#prints("new",camera_rig.rotation.y)
 
 func update_rotation(offset: Vector2) -> void:
 	camera_rig.rotation.y -= offset.x

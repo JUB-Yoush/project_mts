@@ -1,0 +1,16 @@
+// Game: projectMTS
+// Format: Standard
+// entity 0
+{
+"classname" "worldspawn"
+"_tb_textures" "textures;textures/Dark;textures/Green;textures/Light;textures/Orange;textures/Purple;textures/Red"
+// brush 0
+{
+( 16 -48 0 ) ( 16 -47 0 ) ( 16 -48 1 ) grey 0 0 0 1 1
+( 16 -48 0 ) ( 16 -48 1 ) ( 17 -48 0 ) grey 0 0 0 1 1
+( 16 -48 0 ) ( 17 -48 0 ) ( 16 -47 0 ) grey 0 0 0 1 1
+( 112 64 16 ) ( 112 65 16 ) ( 113 64 16 ) grey 0 0 0 1 1
+( 112 64 16 ) ( 113 64 16 ) ( 112 64 17 ) grey 0 0 0 1 1
+( 112 64 16 ) ( 112 64 17 ) ( 112 65 16 ) grey 0 0 0 1 1
+}
+}

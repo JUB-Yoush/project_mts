@@ -24,10 +24,10 @@ collision_mask = 3
 script = ExtResource( 1 )
 
 [node name="Rei" parent="." instance=ExtResource( 2 )]
-transform = Transform( -1.5, 0, -1.31134e-07, 0, 1.5, 0, 1.31134e-07, 0, -1.5, 0, -0.996026, 0.00294244 )
+transform = Transform( -0.00835126, 0, -1.49998, 0, 1.5, 0, 1.49998, 0, -0.00835126, 0.00721365, -0.996026, 0.00725392 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0115492, -1.03876, 0 )
+transform = Transform( 0.0055676, -0.999985, -4.37107e-08, 0, -4.37114e-08, 1, -0.999985, -0.0055676, -2.43367e-10, 0.00433555, -1.03876, -0.00431148 )
 material_override = SubResource( 3 )
 mesh = SubResource( 5 )
 
@@ -56,9 +56,5 @@ texture = ExtResource( 4 )
 
 [node name="StateMachine" parent="CameraRig" index="3"]
 inital_state = NodePath("Camera/Default")
-
-[node name="DirRay" type="RayCast" parent="."]
-enabled = true
-cast_to = Vector3( 0, 0, -3 )
 
 [editable path="CameraRig"]

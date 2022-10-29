@@ -2,7 +2,7 @@ extends CameraState
 
 export var fov_default = 60
 export var is_y_inverted:= false
-export var auto_rotate_speed := 0.0005
+export var auto_rotate_speed := 0.015
 export var deadzone_backwards: = 0.3
 export var sensitivity_gamepad:= Vector2(2.5,2.5)
 export var sensitivity_mouse: =Vector2(0.1,0.1)
@@ -27,7 +27,9 @@ func process(delta: float) -> void:
 		move_direction.x >= -deadzone_backwards and move_direction.x <= deadzone_backwards
 	)
 	if not is_moving_towards_camera and not _is_aiming:
-		auto_rotate(move_direction)
+		#auto_rotate(move_direction)
+		pass
+		
 	
 	camera_rig.rotation.y = wrapf(camera_rig.rotation.y, -PI,PI)
 

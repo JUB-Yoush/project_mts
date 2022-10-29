@@ -1,11 +1,11 @@
 extends KinematicBody
 
 onready var camera:CameraRig = $CameraRig
-onready var dirRay:RayCast = $DirRay
+
 var velocity: = Vector3.ZERO
 
-var speed:= 3;
-var steer_angle: = 3
+var speed:= 7
+var steer_angle: = 2
 
 
 static func get_input_vector() -> Vector3:
@@ -19,6 +19,13 @@ func _physics_process(delta: float) -> void:
 	var input_vector: = get_input_vector()
 	var forwards:Vector3 = camera.global_transform.basis.z * input_vector.z
 	var right:Vector3 = camera.global_transform.basis.x * input_vector.x
-	var rot_change: = steer_angle * input_vector.x
+	var relative_input_vector: = forwards + right
+	var rot_change: = steer_angle * relative_input_vector.x
 	rotation_degrees.y += -rot_change
-	velocity = move_and_slide(Vector3.FORWARD * speed)
+	velocity.x = -cos(rotation.y)
+	velocity.z = sin(rotation.y)
+	velocity.normalized()
+	print(velocity)
+	print(rotation_degrees.y)
+	#prints(cos(rotation_degrees.y),sin(rotation_degrees.y))
+	velocity = move_and_slide(velocity * speed)

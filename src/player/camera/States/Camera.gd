@@ -2,7 +2,7 @@ extends CameraState
 
 export var fov_default = 60
 export var is_y_inverted:= false
-export var auto_rotate_speed := 0.015
+export var auto_rotate_speed := 0.01
 export var deadzone_backwards: = 0.3
 export var sensitivity_gamepad:= Vector2(2.5,2.5)
 export var sensitivity_mouse: =Vector2(0.1,0.1)

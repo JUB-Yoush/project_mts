@@ -90,7 +90,7 @@ points = PoolVector3Array( -15, 2, 1, -15, 0, 1, -11, 0, 1, -11, 2, 1, -15, 2, 6
 script = ExtResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 0.999855, 0, 0.0170161, 0, 1, 0, -0.0170161, 0, 0.999855, 0, 4.07538, 0 )
+transform = Transform( 0.999855, 0, 0.0170161, 0, 1, 0, -0.0170161, 0, 0.999855, 0, 1.24795, 0 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )

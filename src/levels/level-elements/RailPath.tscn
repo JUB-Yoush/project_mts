@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://src/levels/RailFollow.gd" type="Script" id=1]
+[ext_resource path="res://src/levels/RailPath.gd" type="Script" id=2]
+
+[sub_resource type="Curve3D" id=28]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -7.51216, 0.195532, -0.16939, 0, 0, 0, 0, 0, 0, 4.39209, 0.201888, -0.169394, 0, 0, 0, 0, 0, 0, -1.04497, 0.555444, -1.68848 ),
+"tilts": PoolRealArray( 0, 0, 0 )
+}
+
+[sub_resource type="SpatialMaterial" id=32]
+albedo_color = Color( 0.258824, 0.572549, 0.121569, 1 )
+
+[sub_resource type="CubeMesh" id=29]
+size = Vector3( 0.2, 0.2, 0.2 )
+
+[sub_resource type="BoxShape" id=30]
+extents = Vector3( 0.3, 0.3, 0.3 )
+
+[sub_resource type="CubeMesh" id=33]
+size = Vector3( 12, 0.1, 0.1 )
+
+[sub_resource type="SpatialMaterial" id=35]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CubeMesh" id=34]
+size = Vector3( 0.3, 0.3, 0.3 )
+
+[sub_resource type="SpatialMaterial" id=36]
+albedo_color = Color( 0, 0.552941, 1, 1 )
+
+[node name="RailPath" type="Path"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31618, 25.2461 )
+curve = SubResource( 28 )
+script = ExtResource( 2 )
+
+[node name="RailFollow" type="PathFollow" parent="."]
+transform = Transform( 1, 0.000318823, 0.000139848, -0.000318822, 1, -8.7925e-06, -0.000139851, 8.74792e-06, 1, -7.51216, 0.195532, -0.16939 )
+loop = false
+script = ExtResource( 1 )
+
+[node name="RailFollowArea" type="Area" parent="RailFollow"]
+transform = Transform( 1, -1.04261e-12, 0, -1.04339e-12, 1, 0, 0, 0, 1, 2.19345e-05, -0.0486468, -0.0449123 )
+
+[node name="MeshInstance" type="MeshInstance" parent="RailFollow/RailFollowArea"]
+transform = Transform( 1, -1.04261e-12, 0, -1.04339e-12, 1, 0, 0, 0, 1, -1.57356e-05, 0.0384562, 0.0307655 )
+material_override = SubResource( 32 )
+mesh = SubResource( 29 )
+
+[node name="CollisionShape" type="CollisionShape" parent="RailFollow/RailFollowArea"]
+shape = SubResource( 30 )
+
+[node name="RemoteTransform" type="RemoteTransform" parent="RailFollow"]
+update_rotation = false
+update_scale = false
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0.000318823, 0.000139848, -0.000318822, 1, -8.7925e-06, -0.000139851, 8.74792e-06, 1, -1.57903, 0.187611, -0.170786 )
+mesh = SubResource( 33 )
+skeleton = NodePath("../RailPath/RailFollow")
+
+[node name="StartPosition" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.56024, 0.209325, -0.140371 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StartPosition"]
+material_override = SubResource( 35 )
+mesh = SubResource( 34 )
+
+[node name="EndPosiiton" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25863, 0.209325, -0.140371 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="EndPosiiton"]
+material_override = SubResource( 36 )
+mesh = SubResource( 34 )
+skeleton = NodePath("../../StartPosition")

@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/demolvl.2.map-a41a9ec3fab13a4a5c710c870fa464e8.tres"
+
+[deps]
+
+source_file="res://maps/autosave/demolvl.2.map"
+dest_files=[ "res://.import/demolvl.2.map-a41a9ec3fab13a4a5c710c870fa464e8.tres" ]
+
+[params]
+

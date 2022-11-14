@@ -10,7 +10,7 @@ var player_riding:= false
 
 func _ready() -> void:
 	length_vector = endPos.global_translation - startPos.global_translation
-	print(length_vector)
+	#print(length_vector)
 	
 
 func _physics_process(delta: float) -> void:
@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 		railFollow.set_offset(curve.get_closest_offset(followTarget.get_translation()))
 		#railFollow.offset = curve.get_closest_offset(transform.origin - player.transform.origin)
 		
-	print(railFollow.offset)
+	#print(railFollow.offset)
 	#print(player.rotation - rotation)
 	#railFollow.offset = curve.get_closest_offset(player.global_translation)
 	

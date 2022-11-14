@@ -11,7 +11,7 @@ var velocity: = Vector3.ZERO
 
 var speed:= 10.0
 var gravity:= 20.0 
-
+var fly_speed:= 30.0
 var jump_impulse := 10.0
 var air_drift:= 2.0
 
@@ -26,7 +26,8 @@ var move_direction:Vector3
 enum States{
 	MOVING,
 	IN_AIR,
-	ON_RAIL
+	ON_RAIL,
+	FLIGHT
 }
 
 var _state = States.MOVING
@@ -64,7 +65,7 @@ func _physics_process(delta: float) -> void:
 	#---JUMPING---
 	# retain velocity
 	# very minimal movement influence
-	#print(_state)
+	
 	match _state:
 		States.MOVING:
 			state_moving(delta)
@@ -72,6 +73,9 @@ func _physics_process(delta: float) -> void:
 			state_in_air(delta)
 		States.ON_RAIL:
 			state_on_rail(delta)
+		States.FLIGHT:
+			state_flight(delta)
+
 	
 	
 	
@@ -99,7 +103,11 @@ func state_moving(delta:float):
 	
 	
 	if not is_on_floor(): _state = States.IN_AIR
-
+	
+	if Input.is_action_just_pressed("toggle_flight"):
+		$CollisionShape.disabled = true
+		_state = States.FLIGHT
+	
 #---
 func state_in_air(delta:float):
 	update_visualizers(move_direction)
@@ -111,10 +119,31 @@ func state_in_air(delta:float):
 	move_and_slide(velocity + (move_direction * air_drift),Vector3.UP)
 	
 	if is_on_floor(): _state = States.MOVING
-
+	
+	if Input.is_action_just_pressed("toggle_flight"):
+		$CollisionShape.disabled = true
+		_state = States.FLIGHT
+	
 #---
 func state_on_rail(delta:float):
 	pass
+#---
+func state_flight(delta:float):
+	input_vector = get_input_vector()
+	var move_direction := make_relative_input_vector(input_vector)
+	$CollisionShape.disabled = true
+	var y_move = Input.get_action_strength("q") - Input.get_action_strength("e")
+	velocity = move_direction 
+	velocity.y = y_move
+	velocity = velocity * fly_speed
+	velocity = move_and_slide(velocity)
+	
+	if Input.is_action_just_pressed("toggle_flight"):
+		print('bean')
+		_state = States.IN_AIR
+		$CollisionShape.disabled = false
+	pass
+	
 #--------------------------------------------------
 func update_skate_force(move_direction:Vector3):	
 	if skate_force == Vector2.ZERO:skate_force = Vector2.UP.rotated(rotation.y)

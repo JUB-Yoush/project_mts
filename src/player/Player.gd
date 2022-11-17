@@ -9,7 +9,7 @@ onready var veloVisual: = get_parent().get_node("DebugArrows/VeloVisual")
 var velocity: = Vector3.ZERO
 
 
-var speed:= 10.0
+var speed:= 15.0
 var gravity:= 20.0 
 var fly_speed:= 30.0
 var jump_impulse := 10.0
@@ -86,6 +86,7 @@ func state_moving(delta:float):
 	
 
 	update_skate_force(move_direction)
+	update_turn_force(move_direction)
 	update_visualizers(move_direction)
 
 	var skate_force_v3 := Vector3(skate_force.x * speed,velocity.y,skate_force.y * speed)
@@ -145,18 +146,26 @@ func state_flight(delta:float):
 	pass
 	
 #--------------------------------------------------
+
 func update_skate_force(move_direction:Vector3):	
 	if skate_force == Vector2.ZERO:skate_force = Vector2.UP.rotated(rotation.y)
 	var move_direction_v2 := Vector2(move_direction.x,move_direction.z).normalized()
 	
+	# move towards the input based on the turn_str
 	skate_force.x = lerp(skate_force.x,move_direction_v2.x,turn_str)
 	skate_force.y = lerp(skate_force.y,move_direction_v2.y,turn_str)
 	
+	#turn to face the directon you're going
 	rotation.y = Vector2(-skate_force.x,skate_force.y).angle() 
 	skate_force.x *-1
 	skate_force.normalized()
 	#prints("md:",move_direction,"sf:",skate_force)
-	
+
+func update_turn_force(move_direction:Vector3):
+	# make you turn less when you're going faster
+	pass
+
+
 func update_visualizers(move_direction:Vector3):
 	inputVisual.visible = (input_vector != Vector3.ZERO)
 	veloVisual.transform = transform

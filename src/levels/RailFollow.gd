@@ -8,8 +8,8 @@ onready var area := $RailFollowArea
 onready var remoteTransform = $RemoteTransform
 onready var player :Player
 var player_xz_velocity:Vector2
-var railgrind_speed:float
-
+var railgrind_speed:float = 0.2
+var rail_delta:float
 #when body entered:
 # make sure body is player
 # check that the player is hitting from the bottom (maybe make a feet hitbox?)
@@ -27,8 +27,15 @@ func _ready() -> void:
 
 func on_body_entered(body:PhysicsBody):
 	if body.is_in_group("player"):
-		print('player touched me')
 		player = body
+		# get the offset as the collision happens, and then compare it with the collison a little later
+		var old_offset := unit_offset
+		yield(get_tree().create_timer(0.02),"timeout")
+		set_offset(get_parent().curve.get_closest_offset(get_parent().followTarget.get_translation()))
+		rail_delta = unit_offset - old_offset 
+		print(rail_delta)
+		
+		
 		get_parent().player_riding = true
 		player._state = Player.States.ON_RAIL
 		remoteTransform.remote_path = NodePath("../../../Player")
@@ -36,9 +43,8 @@ func on_body_entered(body:PhysicsBody):
 		
 func _physics_process(delta: float) -> void:
 	if get_parent().player_riding:
-		player_xz_velocity = Vector2(player.velocity.x,player.velocity.z)
-		prints(player_xz_velocity)
-		offset += player_xz_velocity.y /5
+		#prints(player_xz_velocity)
+		offset += rail_delta * player.velocity.length() #+ railgrind_speed
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:

@@ -10,7 +10,7 @@ var player_riding:= false
 
 func _ready() -> void:
 	length_vector = endPos.global_translation - startPos.global_translation
-	#print(length_vector)
+	
 	
 
 func _physics_process(delta: float) -> void:

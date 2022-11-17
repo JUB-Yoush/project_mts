@@ -1,0 +1,6 @@
+fix acceleration, 
+make turn_str change based on velocity
+rails:
+- seperate feet box
+- move them up on top of them
+- jump canceling (finally)

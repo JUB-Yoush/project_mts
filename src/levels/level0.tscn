@@ -200,7 +200,7 @@ shape = SubResource( 25 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.790636, 0 )
 
 [node name="RailPath5" parent="." instance=ExtResource( 13 )]
-transform = Transform( -0.917539, -0.396331, 0.0322977, -0.396086, 0.918108, 0.0139424, -0.0351786, 0, -0.999381, 5.93748, 2.75866, 5.55434 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.93748, 0.696331, 5.55434 )
 
 [node name="RailFollow" parent="RailPath5" index="0"]
 transform = Transform( 1, 0.000690534, 3.72529e-09, -0.000690534, 1, 0, -3.72529e-09, 0, 1, -6.04603, 0.144963, 0.0294094 )
@@ -211,4 +211,6 @@ cubic_interp = false
 [node name="MeshInstance" parent="RailPath5/RailFollow/RailFollowArea" index="0"]
 transform = Transform( 1, -5.82077e-11, 9.31323e-10, 5.82077e-11, 1, 9.09495e-13, -9.31323e-10, 0, 1, -1.52588e-05, 0.0384562, 0.0307665 )
 
+[editable path="Player"]
+[editable path="Player/CameraRig"]
 [editable path="RailPath5"]

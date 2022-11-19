@@ -1,6 +1,13 @@
 fix acceleration, 
 make turn_str change based on velocity
+
 rails:
 - seperate feet box
 - move them up on top of them
 - jump canceling (finally)
+- we can send a signal to 
+
+
+mailboxes
+- skate near area and press toss button to deliver
+- while aiming you can throw the mail into the boxes

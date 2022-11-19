@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/rei_plush_-_neon_genesis_evangelion.glb" type="PackedScene" id=2]
@@ -18,6 +18,9 @@ size = Vector3( 0.5, 1.5, 0.05 )
 radius = 0.623224
 height = 0.884992
 
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 0.2, 0.2, 0.2 )
+
 [node name="Player" type="KinematicBody" groups=["player"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01103, 0 )
 collision_mask = 3
@@ -26,14 +29,23 @@ script = ExtResource( 1 )
 [node name="Rei" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1.96701e-07, 0, -1.5, 0, 1.5, 0, 1.5, 0, 1.96701e-07, 0.00432332, -0.996026, -0.0043084 )
 
-[node name="Skateboard" type="MeshInstance" parent="."]
-transform = Transform( -4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91068e-15, 0.00722583, -1.03876, 0.00725084 )
+[node name="Skateboard" type="MeshInstance" parent="Rei"]
+transform = Transform( 0.666667, 1.16564e-07, 5.09515e-15, 0, -2.91409e-08, 0.666667, 1.16564e-07, -0.666667, -2.91409e-08, 0.00770616, -0.0284893, -0.00193501 )
 material_override = SubResource( 3 )
 mesh = SubResource( 5 )
+skeleton = NodePath("../..")
 
 [node name="CollisionShape" type="CollisionShape" parent="." groups=["player"]]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.167049, 0 )
 shape = SubResource( 4 )
+
+[node name="FeetArea" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.997708, 0 )
+collision_layer = 8
+collision_mask = 16
+
+[node name="FeetCollision" type="CollisionShape" parent="FeetArea"]
+shape = SubResource( 6 )
 
 [node name="GroundRay" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000179768, -0.427184, 3.02792e-05 )

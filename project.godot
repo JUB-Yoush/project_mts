@@ -362,6 +362,9 @@ toggle_flight={
 [layer_names]
 
 3d_physics/layer_2="world"
+3d_physics/layer_3="player"
+3d_physics/layer_4="player_feet"
+3d_physics/layer_5="rail_areas"
 
 [physics]
 

@@ -9,7 +9,7 @@ onready var veloVisual: = get_parent().get_node("DebugArrows/VeloVisual")
 var velocity: = Vector3.ZERO
 
 
-var speed:= 15.0
+var speed:= 10.0
 var gravity:= 20.0 
 var fly_speed:= 30.0
 var jump_impulse := 10.0
@@ -127,6 +127,9 @@ func state_in_air(delta:float):
 	
 #---
 func state_on_rail(delta:float):
+	if Input.is_action_pressed("jump"):
+		_state = States.IN_AIR
+		velocity.y += jump_impulse
 	pass
 #---
 func state_flight(delta:float):

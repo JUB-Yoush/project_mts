@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	followTarget.global_transform.origin = player.global_transform.origin
-	if not player_riding: 
+	if not railFollow.player_riding: 
 		railFollow.set_offset(curve.get_closest_offset(followTarget.get_translation()))
 		#railFollow.offset = curve.get_closest_offset(transform.origin - player.transform.origin)
 		

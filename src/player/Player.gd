@@ -23,6 +23,8 @@ var skate_force: = Vector2.ZERO
 var input_vector:Vector3
 var move_direction:Vector3
 
+signal left_rail
+
 enum States{
 	MOVING,
 	IN_AIR,
@@ -65,7 +67,7 @@ func _physics_process(delta: float) -> void:
 	#---JUMPING---
 	# retain velocity
 	# very minimal movement influence
-	
+	#print(_state)
 	match _state:
 		States.MOVING:
 			state_moving(delta)
@@ -127,7 +129,8 @@ func state_in_air(delta:float):
 	
 #---
 func state_on_rail(delta:float):
-	if Input.is_action_pressed("jump"):
+	if Input.is_action_just_pressed("jump"):
+		emit_signal("left_rail")
 		_state = States.IN_AIR
 		velocity.y += jump_impulse
 	pass

@@ -1,11 +1,12 @@
-fix acceleration, 
+fix acceleration, have a current_speed and max speed
 make turn_str change based on velocity
 
 rails:
-- seperate feet box
-- move them up on top of them
-- jump canceling (finally)
-- we can send a signal to 
+- momentum not carrying with jump
+- velcoity constant, not based on players
+- superjumping?
+- how to get player velocity:
+	- use the innacurate limit of the remote transform?
 
 
 mailboxes

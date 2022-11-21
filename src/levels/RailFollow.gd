@@ -29,7 +29,7 @@ func _ready() -> void:
 
 func on_area_entered(area:Area):
 	if player_riding == false:
-		print('moogus')
+		#print('moogus')
 		#print('on_area_entered')
 		#player = area.get_parent()
 		player_riding = true
@@ -69,7 +69,8 @@ func on_player_left_rail():
 func _physics_process(delta: float) -> void:
 	if player_riding:
 		offset += (rail_delta/5 * railgrind_speed) * player.velocity.length() 
-		prints(rail_delta,player.velocity.length())
+		#prints(rail_delta,player.velocity.length())
+		
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

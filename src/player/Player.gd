@@ -68,6 +68,7 @@ func _physics_process(delta: float) -> void:
 	# retain velocity
 	# very minimal movement influence
 	#print(_state)
+	
 	match _state:
 		States.MOVING:
 			state_moving(delta)
@@ -91,10 +92,14 @@ func state_moving(delta:float):
 	update_turn_force(move_direction)
 	update_visualizers(move_direction)
 
-	var skate_force_v3 := Vector3(skate_force.x * speed,velocity.y,skate_force.y * speed)
+	var skate_force_v3 := Vector3(skate_force.x ,velocity.y,skate_force.y )
 	velocity =  skate_force_v3 
+	
+	velocity.x = velocity.x * speed
+	velocity.z = velocity.z * speed
 
 	if is_on_floor() and Input.is_action_pressed("jump"):
+		#print('jump!?')
 		velocity.y += jump_impulse
 		
 
@@ -132,7 +137,7 @@ func state_on_rail(delta:float):
 	if Input.is_action_just_pressed("jump"):
 		emit_signal("left_rail")
 		_state = States.IN_AIR
-		velocity.y += jump_impulse
+		#velocity.y += jump_impulse
 	pass
 #---
 func state_flight(delta:float):
@@ -146,7 +151,6 @@ func state_flight(delta:float):
 	velocity = move_and_slide(velocity)
 	
 	if Input.is_action_just_pressed("toggle_flight"):
-		print('bean')
 		_state = States.IN_AIR
 		$CollisionShape.disabled = false
 	pass
@@ -169,6 +173,7 @@ func update_skate_force(move_direction:Vector3):
 
 func update_turn_force(move_direction:Vector3):
 	# make you turn less when you're going faster
+	print(velocity.length())
 	pass
 
 

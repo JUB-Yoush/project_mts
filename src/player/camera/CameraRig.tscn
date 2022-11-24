@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/player/camera/CameraRig.gd" type="Script" id=1]
-[ext_resource path="res://src/Player/camera/States/Default.gd" type="Script" id=2]
+[ext_resource path="res://src/player/camera/States/Default.gd" type="Script" id=2]
 [ext_resource path="res://src/main/StateMachine.gd" type="Script" id=3]
-[ext_resource path="res://src/Player/camera/States/Camera.gd" type="Script" id=4]
-[ext_resource path="res://src/Player/camera/States/Aim.gd" type="Script" id=5]
-[ext_resource path="res://src/Player/camera/AimTarget.gd" type="Script" id=7]
-[ext_resource path="res://src/Player/camera/SpringArm.gd" type="Script" id=8]
+[ext_resource path="res://src/player/camera/States/Camera.gd" type="Script" id=4]
+[ext_resource path="res://src/player/camera/States/Aim.gd" type="Script" id=5]
+[ext_resource path="res://src/player/camera/AimTarget.gd" type="Script" id=7]
+[ext_resource path="res://src/player/camera/SpringArm.gd" type="Script" id=8]
 
 [sub_resource type="CapsuleShape" id=2]
 height = 0.5

@@ -10,6 +10,7 @@ onready var player:Player = get_parent().get_parent().get_node("Player")
 var railgrind_speed:float = 0.2
 var rail_delta:float
 var player_riding:bool = false
+
 #when body entered:
 # make sure body is player
 # check that the player is hitting from the bottom (maybe make a feet hitbox?)
@@ -41,7 +42,7 @@ func on_area_entered(area:Area):
 		set_offset(get_parent().curve.get_closest_offset(get_parent().followTarget.get_translation()))
 		rail_delta = sign(unit_offset - old_offset)
 		if rail_delta != 0:
-			player._state = player.States.ON_RAIL
+			player.set_state(player.States.ON_RAIL)
 			remoteTransform.remote_path = NodePath("../../../Player")
 		else:
 			on_player_left_rail()
@@ -60,6 +61,7 @@ func on_area_exited(area:Area):
 	
 
 func on_player_left_rail():
+	print('player left rail')
 	player_riding = false
 	remoteTransform.remote_path = ""
 	#player.disconnect("left_rail",self,"on_player_left_rail")
@@ -67,9 +69,10 @@ func on_player_left_rail():
 
 
 func _physics_process(delta: float) -> void:
+	#print(player_riding)
 	if player_riding:
 		offset += (rail_delta/5 * railgrind_speed) * player.velocity.length() 
-		#prints(rail_delta,player.velocity.length())
+		
 		
 	
 

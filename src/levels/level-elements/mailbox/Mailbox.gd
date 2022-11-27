@@ -1,3 +1,3 @@
-extends Area
+extends Spatial
 
 

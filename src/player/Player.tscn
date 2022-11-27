@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/rei_plush_-_neon_genesis_evangelion.glb" type="PackedScene" id=2]
 [ext_resource path="res://src/player/camera/CameraRig.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://assets/2d/reticle.png" type="Texture" id=5]
 
 [sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
@@ -22,7 +23,7 @@ height = 0.884992
 extents = Vector3( 0.2, 0.2, 0.2 )
 
 [node name="Player" type="KinematicBody" groups=["player"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01103, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04442, 0 )
 collision_mask = 3
 script = ExtResource( 1 )
 
@@ -59,6 +60,12 @@ visible = false
 [node name="InterpolatedCamera" parent="CameraRig" index="0"]
 transform = Transform( 1, 0, 0, 0, 0.970367, 0.241634, 0, -0.241634, 0.970367, 0, 1.97822, 4.51899 )
 process_mode = 1
+
+[node name="Crosshair" type="Sprite" parent="CameraRig/InterpolatedCamera" index="0"]
+visible = false
+position = Vector2( 320, 180 )
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 5 )
 
 [node name="SpringArm" parent="CameraRig" index="1"]
 transform = Transform( 1, 0, 0, 0, 0.94693, 0.321439, 0, -0.321439, 0.94693, 0, 0, 0 )

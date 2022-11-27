@@ -2,9 +2,10 @@ extends KinematicBody
 class_name Player
 
 onready var camera:CameraRig = $CameraRig
+onready var crosshair:Sprite = $CameraRig/InterpolatedCamera/Crosshair
 onready var inputVisual: = get_parent().get_node("DebugArrows/InputVisual")
 onready var veloVisual: = get_parent().get_node("DebugArrows/VeloVisual")
-
+onready var aim_camera_state = $CameraRig/StateMachine/Camera/Aim
 
 var velocity: = Vector3.ZERO
 
@@ -29,6 +30,7 @@ enum States{
 	MOVING,
 	IN_AIR,
 	ON_RAIL,
+	AIMING,
 	FLIGHT
 }
 
@@ -52,23 +54,6 @@ func make_relative_input_vector(input_vector:Vector3) -> Vector3:
 	
 
 func _physics_process(delta: float) -> void:
-	
-	#you always start by moving forward regardless of inputted direction.
-	# inputting past 90deg to the left or right  when stopped will turn you around to face backwards and then move in that direction
-	# the allowed inputs are greater when you're moving, maybe like a 30deg radius around the opposite direction of where you're current velocity is
-	# but if you hit backwards while moving you'll break
-	#you start by moving forward then begin to rotate towards the input direction, it will stop rotating once they're about the same 
-	#the speed at which you rotate is based on your current speed, going faster means you turn slower
-	
-	# Current issues:
-	# - 
-	
-	
-	#---JUMPING---
-	# retain velocity
-	# very minimal movement influence
-	#print(_state)
-	
 	match _state:
 		States.MOVING:
 			state_moving(delta)
@@ -76,11 +61,32 @@ func _physics_process(delta: float) -> void:
 			state_in_air(delta)
 		States.ON_RAIL:
 			state_on_rail(delta)
+		States.AIMING:
+			state_aiming(delta)
 		States.FLIGHT:
 			state_flight(delta)
 
 	
 	
+# STATE SETTER------------------
+func set_state(new_state:int):	
+	#print(new_state)
+	# this method is used to undo any state specific stuff before you get placed into another state
+	match _state:
+		States.MOVING:
+			pass
+		States.IN_AIR:
+			pass
+		States.ON_RAIL:
+			emit_signal("left_rail")
+		States.AIMING:
+			crosshair.visible = false
+			pass
+		States.FLIGHT:
+			$CollisionShape.disabled = false
+			
+	
+	_state = new_state
 	
 # -------------------- states----------------------------
 func state_moving(delta:float):
@@ -99,7 +105,7 @@ func state_moving(delta:float):
 	velocity.z = velocity.z * speed
 
 	if is_on_floor() and Input.is_action_pressed("jump"):
-		#print('jump!?')
+	
 		velocity.y += jump_impulse
 		
 
@@ -110,11 +116,12 @@ func state_moving(delta:float):
 	velocity = move_and_slide(velocity,Vector3.UP)
 	
 	
-	if not is_on_floor(): _state = States.IN_AIR
+	if not is_on_floor(): 
+		set_state(States.IN_AIR)
 	
 	if Input.is_action_just_pressed("toggle_flight"):
 		$CollisionShape.disabled = true
-		_state = States.FLIGHT
+		set_state(States.FLIGHT)
 	
 #---
 func state_in_air(delta:float):
@@ -126,20 +133,25 @@ func state_in_air(delta:float):
 	
 	move_and_slide(velocity + (move_direction * air_drift),Vector3.UP)
 	
-	if is_on_floor(): _state = States.MOVING
+	if is_on_floor(): set_state(States.MOVING)
 	
 	if Input.is_action_just_pressed("toggle_flight"):
-		$CollisionShape.disabled = true
-		_state = States.FLIGHT
+		set_state(States.FLIGHT)
 	
 #---
 func state_on_rail(delta:float):
 	if Input.is_action_just_pressed("jump"):
-		emit_signal("left_rail")
-		_state = States.IN_AIR
+		set_state(States.IN_AIR)
 		#velocity.y += jump_impulse
 	pass
 #---
+func state_aiming(delta:float):
+	crosshair.visible = true
+	pass
+
+
+
+
 func state_flight(delta:float):
 	input_vector = get_input_vector()
 	var move_direction := make_relative_input_vector(input_vector)
@@ -151,9 +163,8 @@ func state_flight(delta:float):
 	velocity = move_and_slide(velocity)
 	
 	if Input.is_action_just_pressed("toggle_flight"):
-		_state = States.IN_AIR
-		$CollisionShape.disabled = false
-	pass
+		set_state(States.IN_AIR)
+		
 	
 #--------------------------------------------------
 
@@ -169,11 +180,11 @@ func update_skate_force(move_direction:Vector3):
 	rotation.y = Vector2(-skate_force.x,skate_force.y).angle() 
 	skate_force.x *-1
 	skate_force.normalized()
-	#prints("md:",move_direction,"sf:",skate_force)
+	
 
 func update_turn_force(move_direction:Vector3):
 	# make you turn less when you're going faster
-	print(velocity.length())
+
 	pass
 
 
@@ -186,3 +197,8 @@ func update_visualizers(move_direction:Vector3):
 	var visual_move_direction_angle = Vector2(yfliped_move_vector.x,yfliped_move_vector.y).angle()
 	inputVisual.rotation.y = visual_move_direction_angle
 	#print(visual_move_direction_angle)
+
+func aim():
+	if Input.is_action_pressed("toggle_aim"):
+		CameraRig._state_machine.transition_to("Camera/Aim")
+	

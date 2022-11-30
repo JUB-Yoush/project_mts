@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://src/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=2]
@@ -6,14 +6,13 @@
 [ext_resource path="res://src/levels/level0.gd" type="Script" id=4]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=5]
 [ext_resource path="res://textures/greybi.png" type="Texture" id=6]
-[ext_resource path="res://src/player/mail/Mail.tscn" type="PackedScene" id=7]
 [ext_resource path="res://textures/red.png" type="Texture" id=8]
 [ext_resource path="res://src/debug/DebugArrows.tscn" type="PackedScene" id=9]
 [ext_resource path="res://textures/pink.png" type="Texture" id=10]
 [ext_resource path="res://textures/dgreyb.png" type="Texture" id=11]
 [ext_resource path="res://textures/blue.png" type="Texture" id=12]
-[ext_resource path="res://src/levels/level-elements/RailPath.tscn" type="PackedScene" id=13]
 [ext_resource path="res://src/levels/level-elements/mailbox/Mailbox.tscn" type="PackedScene" id=14]
+[ext_resource path="res://src/ui/ui.tscn" type="PackedScene" id=15]
 
 [sub_resource type="PanoramaSky" id=26]
 panorama = ExtResource( 3 )
@@ -201,24 +200,10 @@ shape = SubResource( 25 )
 [node name="DebugArrows" parent="." instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.790636, 0 )
 
-[node name="RailPath5" parent="." instance=ExtResource( 13 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.305657, 2.25337, 13.743 )
-
-[node name="RailFollow" parent="RailPath5" index="0"]
-transform = Transform( 1, 0.000690534, 3.72529e-09, -0.000690534, 1, 0, -3.72529e-09, 0, 1, -6.04603, 0.144963, 0.0294094 )
-offset = 28.0766
-rotation_mode = 0
-cubic_interp = false
-
-[node name="MeshInstance" parent="RailPath5/RailFollow/RailFollowArea" index="0"]
-transform = Transform( 1, -5.82077e-11, 9.31323e-10, 5.82077e-11, 1, 9.09495e-13, -9.31323e-10, 0, 1, -1.52588e-05, 0.0384562, 0.0307665 )
-
-[node name="Mail" parent="." instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.11126, 1.84219, 22.2301 )
-
 [node name="MailBox" parent="." instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19.4643 )
 
+[node name="CanvasLayer" parent="." instance=ExtResource( 15 )]
+
 [editable path="Player"]
 [editable path="Player/CameraRig"]
-[editable path="RailPath5"]

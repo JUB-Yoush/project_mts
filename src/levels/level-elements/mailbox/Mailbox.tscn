@@ -19,12 +19,12 @@ material = SubResource( 3 )
 size = Vector3( 0.8, 0.7, 0.8 )
 
 [sub_resource type="SphereShape" id=5]
-radius = 1.91418
+radius = 1.87808
 
 [sub_resource type="SphereShape" id=6]
-radius = 1.25744
+radius = 0.974611
 
-[node name="MailBox" type="Spatial"]
+[node name="MailBox" type="Spatial" groups=["mailbox"]]
 script = ExtResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]

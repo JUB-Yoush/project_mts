@@ -4,8 +4,13 @@ export var fov_default = 60
 export var is_y_inverted:= false
 export var auto_rotate_speed := 0.01
 export var deadzone_backwards: = 0.3
-export var sensitivity_gamepad:= Vector2(2.5,2.5)
-export var sensitivity_mouse: =Vector2(0.1,0.1)
+export var sensitivity_gamepad_default:= Vector2(2.5,2.5)
+export var sensitivity_gamepad_aiming:= Vector2(2.5,2.5)
+export var sensitivity_mouse_default: =Vector2(0.1,0.1)
+export var sensitivity_mouse_aiming: =Vector2(0.5,0.5)
+
+var sensitivity_mouse_current:Vector2
+var sensitivity_gamepad_current:Vector2
 
 var _input_relative = Vector2.ZERO
 var _is_aiming := false
@@ -17,11 +22,11 @@ func process(delta: float) -> void:
 	var look_direction: = get_look_direction()
 	var move_direction: = get_move_direction()
 	if _input_relative.length() > 0.0:
-		update_rotation(_input_relative * sensitivity_mouse * delta)
+		update_rotation(_input_relative * sensitivity_mouse_current * delta)
 		_input_relative = Vector2.ZERO
 	
 	if look_direction.length() > 0.0:
-		update_rotation(look_direction * sensitivity_gamepad * delta)
+		update_rotation(look_direction * sensitivity_gamepad_current * delta)
 	
 	var is_moving_towards_camera:bool = (
 		move_direction.x >= -deadzone_backwards and move_direction.x <= deadzone_backwards

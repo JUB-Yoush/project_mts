@@ -23,6 +23,9 @@ speed = 7.0
 enabled = true
 process_mode = 0
 
+[node name="TossPosition" type="Position3D" parent="InterpolatedCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0048191, -1.04828 )
+
 [node name="AimRay" type="RayCast" parent="InterpolatedCamera"]
 enabled = true
 cast_to = Vector3( 0, 0, -20 )

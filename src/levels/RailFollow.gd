@@ -10,7 +10,7 @@ onready var player:Player = get_parent().get_parent().get_node("Player")
 var railgrind_speed:float = 0.2
 var rail_delta:float
 var player_riding:bool = false
-
+var original_rotation = rotation
 #when body entered:
 # make sure body is player
 # check that the player is hitting from the bottom (maybe make a feet hitbox?)
@@ -24,6 +24,7 @@ var player_riding:bool = false
 func _ready() -> void:
 	area.connect("area_entered",self,"on_area_entered")
 	area.connect("area_exited",self,"on_area_exited")
+	
 	player.connect("left_rail",self,"on_player_left_rail")
 	pass # Replace with function body.
 
@@ -70,6 +71,7 @@ func on_player_left_rail():
 
 func _physics_process(delta: float) -> void:
 	#print(player_riding)
+	rotation = original_rotation
 	if player_riding:
 		offset += (rail_delta/5 * railgrind_speed) * player.velocity.length() 
 		

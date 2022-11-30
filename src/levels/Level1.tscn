@@ -1,4 +1,4 @@
-[gd_scene load_steps=335 format=2]
+[gd_scene load_steps=340 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://src/levels/level-elements/battery.tscn" type="PackedScene" id=14]
 [ext_resource path="res://textures/purp.png" type="Texture" id=15]
 [ext_resource path="res://src/levels/level-elements/mailbox/Mailbox.tscn" type="PackedScene" id=16]
+[ext_resource path="res://src/levels/level-elements/RailPath.tscn" type="PackedScene" id=17]
 
 [sub_resource type="SpatialMaterial" id=1]
 
@@ -140,6 +141,71 @@ surfaces/7 = {
 "skeleton_aabb": [  ],
 "vertex_count": 120
 }
+
+[sub_resource type="Shader" id=334]
+code = "shader_type spatial; 
+render_mode skip_vertex_transform, diffuse_burley; 
+
+//Albedo texture 
+uniform sampler2D albedoTex : hint_albedo; //Geometric resolution for vert sna[ 
+uniform float snapRes = 8.0; 
+uniform float roughness = 1.0;
+uniform float specular = 0.1;
+uniform vec2 uv_scale = vec2(1.0, 1.0);
+uniform vec2 uv_offset = vec2(.0, .0);
+//Controls the how much light it recieves
+uniform float light_intensity = 0.3;
+
+// For transparent textures
+uniform bool transparent = false;
+
+// cull mode disabled
+
+//vec4 for UV recalculation 
+varying vec4 vertCoord; 
+void vertex() { 
+	UV = UV * uv_scale + uv_offset;
+	VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz; 
+	VERTEX.xyz = floor(VERTEX.xyz * snapRes) / snapRes; 
+	vertCoord = vec4(UV * VERTEX.x, VERTEX.z, 0); 
+} 
+void fragment() { 
+	
+	ROUGHNESS =roughness;
+	SPECULAR = specular;
+	ALBEDO = texture(albedoTex, UV).rgb; 
+	
+	
+	//Check if the texture is transparent
+	if (transparent == true){
+		// alpha value less than user-specified threshold 0.0?
+		if (texture(albedoTex, UV).a <= 0.0)
+        
+    	{
+        	discard; // yes: discard this fragment
+    	}	
+		
+	}
+	
+	
+	}
+//QUICK FIX TO LIGHTING
+void light()
+{
+	
+	DIFFUSE_LIGHT = ALBEDO*LIGHT_COLOR*ATTENUATION*light_intensity;
+}"
+
+[sub_resource type="ShaderMaterial" id=335]
+shader = SubResource( 334 )
+shader_param/snapRes = 16.0
+shader_param/roughness = 1.0
+shader_param/specular = 0.1
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/light_intensity = 0.3
+shader_param/transparent = false
+shader_param/albedoTex = ExtResource( 3 )
 
 [sub_resource type="ConvexPolygonShape" id=26]
 points = PoolVector3Array( 9.5, 22, 17, 9.5, 20, 17, 10.5, 20, 17, 10.5, 22, 17, 9.5, 22, 18, 9.5, 20, 18, 10.5, 20, 18, 10.5, 22, 18 )
@@ -1068,6 +1134,18 @@ background_sky = SubResource( 15 )
 background_sky_custom_fov = 57.4
 ambient_light_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="Curve3D" id=333]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 5.965, -0.296732, 0.0371895, 0, 0, 0, 0, 0, 0, -5.99941, 0.142439, 0.188129, 0, 0, 0, 0, 0, 0, -13.7001, 3.65516, 1.62286, 0, 0, 0, 0, 0, 0, -19.0701, 2.98283, 2.6338, 0, 0, 0, 0, 0, 0, -29.331, 1.79985, 26.8514, 0, 0, 0, 0, 0, 0, -25.6655, 1.27583, 30.7471, 0, 0, 0, 0, 0, 0, -19.0183, -3.78452, 36.9997 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="Curve3D" id=332]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 5.98846, -0.00633717, -0.0455399, 0, 0, 0, 0, 0, 0, -4.4846, -0.0525646, -0.306835, 0, 0, 0, 0, 0, 0, -10.1842, 1.8114, 8.46879, 0, 0, 0, 0, 0, 0, 0.230709, 4.49681, 22.2721, 0, 0, 0, 0, 0, 0, 13.0025, 10.1379, 12.661, 0, 0, 0, 0, 0, 0, 7.14058, 14.1012, 5.09286 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0 )
+}
+
 [node name="Level1" type="Node"]
 script = ExtResource( 7 )
 
@@ -1097,6 +1175,7 @@ collision_layer = 3
 [node name="entity_0_mesh_instance" type="MeshInstance" parent="QodotMap/entity_0_worldspawn"]
 use_in_baked_light = true
 mesh = SubResource( 25 )
+material/0 = SubResource( 335 )
 
 [node name="entity_0_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_0_worldspawn"]
 shape = SubResource( 26 )
@@ -2017,7 +2096,7 @@ shape = SubResource( 330 )
 shape = SubResource( 331 )
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
-transform = Transform( 0.0172954, 0, -0.99985, 0, 1, 0, 0.99985, 0, 0.0172954, 10.4583, 14.0707, 15.8802 )
+transform = Transform( 0.0172954, 0, -0.99985, 0, 1, 0, 0.99985, 0, 0.0172954, 12.5002, 14.0707, -41.3043 )
 
 [node name="DebugArrows" parent="." instance=ExtResource( 6 )]
 
@@ -2162,3 +2241,16 @@ transform = Transform( 0.830217, -0.0532024, 0.554896, 0.0392478, 0.998544, 0.03
 transform = Transform( 0.99997, 0, -0.00776664, 0, 1, 0, 0.00776664, 0, 0.99997, 5.39207, 9.85126, -13.1502 )
 
 [node name="MailBox" parent="." instance=ExtResource( 16 )]
+
+[node name="RailPath" parent="." instance=ExtResource( 17 )]
+transform = Transform( -0.932031, -0.0868773, 0.351811, -0.0806211, 0.996217, 0.0324245, -0.353297, 0.00185729, -0.935509, 19.914, 10.1373, -38.571 )
+curve = SubResource( 333 )
+
+[node name="RailFollow" parent="RailPath" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.965, -0.296732, 0.0371895 )
+
+[node name="RailPath2" parent="." instance=ExtResource( 17 )]
+transform = Transform( 0.61604, -0.109512, 0.780066, 0.0101676, 0.991312, 0.131139, -0.78765, -0.0728552, 0.611801, 3.59549, 2.30369, -70.8633 )
+curve = SubResource( 332 )
+
+[editable path="RailPath"]

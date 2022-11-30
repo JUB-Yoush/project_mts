@@ -76,4 +76,6 @@ texture = ExtResource( 4 )
 [node name="StateMachine" parent="CameraRig" index="3"]
 inital_state = NodePath("Camera/Default")
 
+[node name="EnergyTimer" type="Timer" parent="."]
+
 [editable path="CameraRig"]

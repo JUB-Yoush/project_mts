@@ -6,6 +6,9 @@ onready var crosshair:Sprite = $CameraRig/InterpolatedCamera/Crosshair
 onready var inputVisual: = get_parent().get_node("DebugArrows/InputVisual")
 onready var veloVisual: = get_parent().get_node("DebugArrows/VeloVisual")
 onready var aim_camera_state = $CameraRig/StateMachine/Camera/Aim
+onready var Mail:PackedScene = load("res://src/player/mail/Mail.tscn")
+onready var tossPosition:Position3D = $CameraRig/InterpolatedCamera/TossPosition
+onready var cameraState:= $CameraRig/StateMachine/Camera
 
 var velocity: = Vector3.ZERO
 
@@ -15,6 +18,10 @@ var gravity:= 20.0
 var fly_speed:= 30.0
 var jump_impulse := 10.0
 var air_drift:= 2.0
+var energy:= 100.0
+var max_energy:= 100.0
+var mail_energy_cost: = 15.0
+var rail_energy_refil: = 20.0
 
 const MAX_SPEED: = 23.0
 var steer_angle: = 2.0
@@ -25,7 +32,11 @@ var input_vector:Vector3
 var move_direction:Vector3
 
 signal left_rail
+signal energy_changed(energy)
+signal state_changed(state)
+signal near_delivery
 
+var is_aiming:bool = false
 enum States{
 	MOVING,
 	IN_AIR,
@@ -87,7 +98,13 @@ func set_state(new_state:int):
 			
 	
 	_state = new_state
-	
+	emit_signal("state_changed",new_state)
+
+# OTHER SETTERS -------------------
+func set_energy(new_energy:float):
+	energy = clamp(new_energy,0,max_energy)
+	emit_signal("energy_changed",energy)
+
 # -------------------- states----------------------------
 func state_moving(delta:float):
 	input_vector = get_input_vector()
@@ -122,7 +139,8 @@ func state_moving(delta:float):
 	if Input.is_action_just_pressed("toggle_flight"):
 		$CollisionShape.disabled = true
 		set_state(States.FLIGHT)
-	
+	aim()
+	toss()
 #---
 func state_in_air(delta:float):
 	update_visualizers(move_direction)
@@ -137,16 +155,19 @@ func state_in_air(delta:float):
 	
 	if Input.is_action_just_pressed("toggle_flight"):
 		set_state(States.FLIGHT)
-	
+	aim()
+	toss()
 #---
 func state_on_rail(delta:float):
 	if Input.is_action_just_pressed("jump"):
 		set_state(States.IN_AIR)
+	set_energy(energy + (rail_energy_refil * delta))
 		#velocity.y += jump_impulse
-	pass
+	aim()
+	toss()
 #---
 func state_aiming(delta:float):
-	crosshair.visible = true
+	#crosshair.visible = true
 	pass
 
 
@@ -168,6 +189,7 @@ func state_flight(delta:float):
 	
 #--------------------------------------------------
 
+# --------------- state components ----------------
 func update_skate_force(move_direction:Vector3):	
 	if skate_force == Vector2.ZERO:skate_force = Vector2.UP.rotated(rotation.y)
 	var move_direction_v2 := Vector2(move_direction.x,move_direction.z).normalized()
@@ -199,6 +221,27 @@ func update_visualizers(move_direction:Vector3):
 	#print(visual_move_direction_angle)
 
 func aim():
-	if Input.is_action_pressed("toggle_aim"):
-		CameraRig._state_machine.transition_to("Camera/Aim")
-	
+	# the is_aim boolean is managed in Camera Parent state. I know.
+	crosshair.visible = is_aiming
+	if is_aiming:
+		Engine.time_scale = 0.2
+		cameraState.sensitivity_gamepad_current = cameraState.sensitivity_gamepad_aiming
+		cameraState.sensitivity_mouse_current = cameraState.sensitivity_mouse_aiming
+	else:
+		Engine.time_scale = 1
+		cameraState.sensitivity_gamepad_current = cameraState.sensitivity_gamepad_default
+		cameraState.sensitivity_mouse_current = cameraState.sensitivity_mouse_default
+#	if Input.is_action_pressed("toggle_aim"):
+#		CameraRig._state_machine.transition_to("Camera/Aim")
+
+func toss():
+	if Input.is_action_just_pressed("click") and is_aiming and energy >= mail_energy_cost:
+		set_energy(energy - mail_energy_cost)
+		var b = Mail.instance()
+		owner.add_child(b)
+		b.transform = tossPosition.global_transform
+		b.velocity = -b.transform.basis.z * b.muzzle_velocity
+	elif Input.is_action_just_pressed("click") and energy >= mail_energy_cost:
+		emit_signal("near_delivery")
+		set_energy(energy - mail_energy_cost)
+

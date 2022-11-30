@@ -42,7 +42,9 @@ func transition_to(target_state_path:String,msg: = {}) -> void:
 	state.exit()
 	self.state = target_state
 	if target_state.name == "Aim":
-		player.set_state(player.States.AIMING)
+		player.is_aiming = true
+	if target_state.name != "Aim":
+		player.is_aiming = false
 	state.enter(msg)
 	emit_signal("transitioned",target_state_path)
 	

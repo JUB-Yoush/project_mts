@@ -65,7 +65,7 @@ map_file = "P:/Personal/Godot/Qodot/qodot-example/addons/qodot/example_scenes/2-
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource( 14 )
 base_texture_dir = "res://addons/qodot/textures"
-texture_file_extension = "png"
+texture_file_extensions = PoolStringArray( "png" )
 worldspawn_layers = [  ]
 brush_clip_texture = "special/clip"
 face_skip_texture = "special/skip"
@@ -165,10 +165,8 @@ mode_overrides_title = false
 mode = 0
 access = 2
 filters = PoolStringArray( "*.map" )
-current_dir = "P:/Personal/Godot/Qodot/qodot-example"
-current_file = "qodot_example.map"
-current_path = "P:/Personal/Godot/Qodot/qodot-example/qodot_example.map"
+
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/OpenButton" to="UI/MapFileDialog" method="popup"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/ReloadButton" to="QodotMap" method="verify_and_build"]
-[connection signal="file_selected" from="UI/MapFileDialog" to="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/FilenameLabel" method="set_text"]
 [connection signal="file_selected" from="UI/MapFileDialog" to="QodotMap" method="set_map_file"]
+[connection signal="file_selected" from="UI/MapFileDialog" to="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/FilenameLabel" method="set_text"]

@@ -1,6 +1,6 @@
 extends Path
 
-onready var player = get_parent().get_node("Player")
+onready var player = get_parent().get_parent().get_node("Player")
 onready var railFollow = $RailFollow
 onready var followTarget := $FollowTarget
 var player_riding:= false

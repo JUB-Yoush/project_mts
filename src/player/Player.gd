@@ -227,10 +227,12 @@ func aim():
 		Engine.time_scale = 0.2
 		cameraState.sensitivity_gamepad_current = cameraState.sensitivity_gamepad_aiming
 		cameraState.sensitivity_mouse_current = cameraState.sensitivity_mouse_aiming
+		cameraState.max_look = cameraState.max_look_aim
 	else:
 		Engine.time_scale = 1
 		cameraState.sensitivity_gamepad_current = cameraState.sensitivity_gamepad_default
 		cameraState.sensitivity_mouse_current = cameraState.sensitivity_mouse_default
+		cameraState.max_look = cameraState.max_look_default
 #	if Input.is_action_pressed("toggle_aim"):
 #		CameraRig._state_machine.transition_to("Camera/Aim")
 

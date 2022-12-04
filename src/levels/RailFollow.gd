@@ -6,7 +6,7 @@ extends PathFollow
 # var b: String = "text"
 onready var area := $RailFollowArea
 onready var remoteTransform = $RemoteTransform
-onready var player:Player = get_parent().get_parent().get_node("Player")
+onready var player:Player = get_parent().get_parent().get_parent().get_node("Player")
 var railgrind_speed:float = 0.2
 var rail_delta:float
 var player_riding:bool = false
@@ -45,7 +45,7 @@ func on_area_entered(area:Area):
 		rail_delta = sign(unit_offset - old_offset)
 		if rail_delta != 0:
 			player.set_state(player.States.ON_RAIL)
-			remoteTransform.remote_path = NodePath("../../../Player")
+			remoteTransform.remote_path = NodePath("../../../../Player")
 		else:
 			on_player_left_rail()
 			print(rail_delta)

@@ -12,6 +12,11 @@ export var sensitivity_mouse_aiming: =Vector2(0.5,0.5)
 var sensitivity_mouse_current:Vector2
 var sensitivity_gamepad_current:Vector2
 
+var max_look_aim:float = 1.5
+var max_look_default:float = 1.25
+
+var max_look:float
+
 var _input_relative = Vector2.ZERO
 var _is_aiming := false
 
@@ -55,7 +60,7 @@ func auto_rotate(move_direction:Vector3) -> void:
 func update_rotation(offset: Vector2) -> void:
 	camera_rig.rotation.y -= offset.x
 	camera_rig.rotation.x += offset.y * -1.0 if is_y_inverted else offset.y
-	camera_rig.rotation.x = clamp(camera_rig.rotation.x, -0.75,1.25)
+	camera_rig.rotation.x = clamp(camera_rig.rotation.x, -0.75,max_look)
 	camera_rig.rotation.z = 0
 	return
 	

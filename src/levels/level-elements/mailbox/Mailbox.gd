@@ -31,6 +31,8 @@ func on_nearArea_body_exited(body:PhysicsBody):
 func player_near_delivery():
 	#print("mail delivered (bro trust me)")
 	delivered_to = true
+	$MeshOn.visible = false
+	$MeshOff.visible = true
 	emit_signal("got_mail")
 	pass
 # ------------------------------------
@@ -38,7 +40,8 @@ func player_near_delivery():
 # --- tossing like a cool kid
 func on_tossArea_body_entered(area:Area):
 	if area.is_in_group("mail") and !delivered_to:
-		print('e')
 		delivered_to = true
+		$MeshOn.visible = false
+		$MeshOff.visible = true
 		emit_signal("got_mail")
 	

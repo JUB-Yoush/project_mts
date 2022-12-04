@@ -19,8 +19,38 @@ TODO:
 	- when decay time reached
 	- when it hits mailbox or level
 
+- mail quota
+ 	- just count the # of mailbox nodes in the scene
+ 	- when more than half full let player win level
+
+ - pits/respanws
+ 	- have a current respawn variable that get's changed
+ 	- a respawn is a position and an area ig
+ 	- when you fall in pit go back to last respawn
+
+MOVEMENT MECHANICS:
 - tune the movement 
 - add a boost that costs energy
 - air spin
 - wall riding???
 - use the innacurate limit of the remote transform to get the player's velocity?
+
+
+NEED:
+- map all the fake rails in the levels with curves so they work, MAKE EACH CURVE UNIQUE SO IT DOSEN'T OVERWRITE THE LAST ONE 
+- place all the mailboxes
+- make a ending screen that show's some stats (time, mail delivered,score) and make a letter grade 
+- code pit areas and respawn points, failing in a pit decreases score and brings you back to respawn
+- make sure the level is playable through to the end with no flying
+- ui connections
+
+WANT:
+- time stays the same engine speed even when slowed down (don't spend time aiming too long)
+- movement
+- make movement not bad
+- make rails not bad
+- just... make the whole game not bad dude
+- add other movement options
+- add... slopes?, y'know there still aren't slopes right
+
+

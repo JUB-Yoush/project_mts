@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/purpbi.png-d1773253cf6f64215746aff2dc320f29.stex"
+path="res://.import/brampton.png-4cb4b4d309126e8ca6c6c5a902aab723.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/purpbi.png"
-dest_files=[ "res://.import/purpbi.png-d1773253cf6f64215746aff2dc320f29.stex" ]
+source_file="res://assets/brampton.png"
+dest_files=[ "res://.import/brampton.png-4cb4b4d309126e8ca6c6c5a902aab723.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

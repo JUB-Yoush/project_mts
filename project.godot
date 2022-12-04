@@ -237,7 +237,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Project Mts"
-run/main_scene="res://src/levels/level0.tscn"
+run/main_scene="res://src/levels/Level1.tscn"
 config/icon="res://icon.png"
 
 [debug]
@@ -363,6 +363,7 @@ toggle_flight={
 3d_physics/layer_3="player"
 3d_physics/layer_4="player_feet"
 3d_physics/layer_5="rail_areas"
+3d_physics/layer_6="mail"
 
 [physics]
 

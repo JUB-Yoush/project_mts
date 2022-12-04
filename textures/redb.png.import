@@ -14,7 +14,7 @@ dest_files=[ "res://.import/redb.png-5a31a9e016abad8e922b236318ce31d2.stex" ]
 
 [params]
 
-compress/mode=3
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

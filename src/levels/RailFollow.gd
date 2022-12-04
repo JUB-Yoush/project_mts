@@ -11,6 +11,7 @@ var railgrind_speed:float = 0.2
 var rail_delta:float
 var player_riding:bool = false
 var original_rotation = rotation
+var game_speed:float = 1
 #when body entered:
 # make sure body is player
 # check that the player is hitting from the bottom (maybe make a feet hitbox?)
@@ -71,9 +72,14 @@ func on_player_left_rail():
 
 func _physics_process(delta: float) -> void:
 	#print(player_riding)
+	if player.is_aiming:
+		game_speed = 0.2
+	else:
+		game_speed = 1
+		pass
 	rotation = original_rotation
 	if player_riding:
-		offset += (rail_delta/5 * railgrind_speed) * player.velocity.length() 
+		offset += ((rail_delta/5 * railgrind_speed) * player.velocity.length()) * game_speed
 		
 		
 	

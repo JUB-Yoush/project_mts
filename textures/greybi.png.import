@@ -2,19 +2,21 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/greybi.png-07202741232069adf2df96b8eac86c54.stex"
+path.s3tc="res://.import/greybi.png-07202741232069adf2df96b8eac86c54.s3tc.stex"
+path.etc2="res://.import/greybi.png-07202741232069adf2df96b8eac86c54.etc2.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/greybi.png"
-dest_files=[ "res://.import/greybi.png-07202741232069adf2df96b8eac86c54.stex" ]
+dest_files=[ "res://.import/greybi.png-07202741232069adf2df96b8eac86c54.s3tc.stex", "res://.import/greybi.png-07202741232069adf2df96b8eac86c54.etc2.stex" ]
 
 [params]
 
-compress/mode=3
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

@@ -2,16 +2,9 @@ extends Path
 
 onready var player = get_parent().get_node("Player")
 onready var railFollow = $RailFollow
-onready var startPos: = $StartPosition
-onready var endPos: = $EndPosiiton
 onready var followTarget := $FollowTarget
-var length_vector:Vector3
 var player_riding:= false
 
-func _ready() -> void:
-	length_vector = endPos.global_translation - startPos.global_translation
-	
-	
 
 func _physics_process(delta: float) -> void:
 	followTarget.global_transform.origin = player.global_transform.origin

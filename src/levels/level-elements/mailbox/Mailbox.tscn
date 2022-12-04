@@ -43,6 +43,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.225243, 0 )
 shape = SubResource( 5 )
 
 [node name="TossArea" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 32
 
 [node name="CollisionShape2" type="CollisionShape" parent="TossArea"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.483012, 0 )

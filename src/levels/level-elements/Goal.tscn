@@ -7,9 +7,12 @@ signal goal_reached
 
 func _ready() -> void:
 	connect(\"goal_reached\",get_parent(),\"on_player_reached_goal\")
+	connect(\"body_entered\",self,\"on_body_entered\")
 	pass # Replace with function body.
 
-
+func on_body_entered(body:PhysicsBody):
+	if body.is_in_group(\"player\"):
+		emit_signal(\"goal_reached\")
 "
 
 [sub_resource type="BoxShape" id=1]

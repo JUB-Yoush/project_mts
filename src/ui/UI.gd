@@ -7,6 +7,7 @@ extends Control
 
 onready var energyLabel: = $Panel/VBoxContainer/EnergyLabel
 onready var stateLabel: = $Panel/VBoxContainer/StateLabel
+onready var results:= get_parent().get_node("Results")
 onready var player = get_parent().get_parent().get_node("Player")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,3 +26,9 @@ func on_player_state_changed(state:int):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
+func display_results():
+ visible = false
+ results.visible = true
+ results.get_node("Panel/VBoxContainer/TimeLabel").text =  $Panel/VBoxContainer/TimeLabel.text
+ results.get_node("Panel/VBoxContainer/MailLabel").text =  $Panel/VBoxContainer/MailLabel.text
+ results.get_node("Panel/VBoxContainer/ScoreLabel").text =  $Panel/VBoxContainer/ScoreLabel.text

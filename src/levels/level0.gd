@@ -2,8 +2,10 @@ extends Node
 
 onready var mailboxes := $Mailboxes
 var mailbox_count:int
-var mail_delivered:int
+var mail_delivered:int = 0
 var quota_reached:bool
+var mailbox_score_value:int = 150
+var score:int
 var time := 0.0
 var player_respawn_position:Position3D
 onready var player:Player = get_node("Player")
@@ -28,13 +30,23 @@ func _input(event: InputEvent) -> void:
 
 func on_mailbox_delivered():
 	mail_delivered += 1
+	score += mailbox_score_value
 	$CanvasLayer/UI/Panel/VBoxContainer/MailLabel.text = ("MAIL: %d/%d" % [mail_delivered,mailbox_count])
+	var zeroes = 8 - str(score).length()
+	var score_str = ""
+	for x in range (zeroes):
+		 score_str += "0"
+	score_str += str(score)
+	$CanvasLayer/UI/Panel/VBoxContainer/ScoreLabel.text = ("SCORE: %s" % [score_str])
 	quota_reached = (mail_delivered == mailbox_count/2)
+	if quota_reached:
+		$Goal.visible = true
 	print('yay mail')
 
 func on_player_reached_goal():
 	if quota_reached:
 		print('yaa you did it level over')
+		$CanvasLayer/UI.display_results()
 		#display the results screen
 	else:
 		print('not enough')

@@ -13,10 +13,12 @@ onready var cameraState:= $CameraRig/StateMachine/Camera
 var velocity: = Vector3.ZERO
 
 
-var speed:= 10.0
+var speed:= 15.0
 var gravity:= 20.0 
 var fly_speed:= 30.0
 var jump_impulse := 10.0
+var djump_impulse := 7.5
+var djumped:= false
 var air_drift:= 2.0
 var energy:= 100.0
 var max_energy:= 100.0
@@ -46,6 +48,7 @@ enum States{
 	IN_AIR,
 	ON_RAIL,
 	AIMING,
+	DJUMP,
 	FLIGHT
 }
 
@@ -69,7 +72,7 @@ func make_relative_input_vector(input_vector:Vector3) -> Vector3:
 	
 
 func _physics_process(delta: float) -> void:
-	print(velocity)
+
 	match _state:
 		States.MOVING:
 			state_moving(delta)
@@ -79,6 +82,8 @@ func _physics_process(delta: float) -> void:
 			state_on_rail(delta)
 		States.AIMING:
 			state_aiming(delta)
+		States.DJUMP:
+			state_djump(delta)
 		States.FLIGHT:
 			state_flight(delta)
 
@@ -93,9 +98,7 @@ func set_state(new_state:int):
 		States.IN_AIR:
 			pass
 		States.ON_RAIL:
-			velocity += move_direction * speed * 5
-			move_and_slide(velocity,Vector3.UP	)
-			emit_signal("left_rail")
+			pass
 			
 		States.AIMING:
 			crosshair.visible = false
@@ -115,6 +118,7 @@ func set_energy(new_energy:float):
 
 # -------------------- states----------------------------
 func state_moving(delta:float):
+	djumped= false
 	input_vector = get_input_vector()
 	var move_direction := make_relative_input_vector(input_vector)
 	
@@ -161,12 +165,17 @@ func state_in_air(delta:float):
 	
 	if is_on_floor(): set_state(States.MOVING)
 	
+	if Input.is_action_just_pressed("jump") and djumped == false:
+		set_state(States.DJUMP)
+		djumped = true
+	
 	if Input.is_action_just_pressed("toggle_flight"):
 		set_state(States.FLIGHT)
 	aim()
 	toss()
 #---
 func state_on_rail(delta:float):
+	djumped= true
 	var new_pos := translation
 	var pos_delta := old_pos - new_pos
 	
@@ -174,8 +183,11 @@ func state_on_rail(delta:float):
 	old_pos = new_pos
 	
 	if Input.is_action_just_pressed("jump"):
+		velocity += make_relative_input_vector(get_input_vector()) * djump_impulse
+		velocity.y += jump_impulse
+		move_and_slide(velocity,Vector3.UP	)
 		emit_signal("left_rail")
-#		set_state(States.IN_AIR)
+		set_state(States.IN_AIR)
 	set_energy(energy + (rail_energy_refil * delta))
 		#velocity.y += jump_impulse
 	aim()
@@ -201,7 +213,14 @@ func state_flight(delta:float):
 	if Input.is_action_just_pressed("toggle_flight"):
 		set_state(States.IN_AIR)
 		
-	
+
+func state_djump(delta):
+	velocity += make_relative_input_vector(get_input_vector()) * djump_impulse
+	velocity.y += djump_impulse
+	print(move_direction)
+	move_and_slide(velocity,Vector3.UP)
+	set_state(States.IN_AIR	)
+
 #--------------------------------------------------
 
 # --------------- state components ----------------

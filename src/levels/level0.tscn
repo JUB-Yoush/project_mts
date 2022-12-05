@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://src/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://src/levels/level0.gd" type="Script" id=4]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=5]
 [ext_resource path="res://textures/greybi.png" type="Texture" id=6]
+[ext_resource path="res://src/levels/level-elements/RailPath.tscn" type="PackedScene" id=7]
 [ext_resource path="res://textures/red.png" type="Texture" id=8]
 [ext_resource path="res://src/debug/DebugArrows.tscn" type="PackedScene" id=9]
 [ext_resource path="res://textures/pink.png" type="Texture" id=10]
@@ -133,6 +134,12 @@ points = PoolVector3Array( -8, 2, 25, -8, 0, 25, -7, 0, 25, -7, 2, 25, -8, 2, 26
 [sub_resource type="ConvexPolygonShape" id=42]
 points = PoolVector3Array( -19, 4.5, -6, -19, 0, -6, -11, 0, -6, -19, 4.5, -3, -19, 0, -2, -11, 0, -2 )
 
+[sub_resource type="Curve3D" id=43]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0.250172, 9.13733, -7.06092, 0, 0, 0, 0, 0, 0, -0.257724, 6.28451, 1.13651, 0, 0, 0, 0, 0, 0, -0.651783, 3.24698, 7.81884, 0, 0, 0, 0, 0, 0, -0.933051, 2.22078, 12.142, 0, 0, 0, 0, 0, 0, -0.417547, 1.12153, 17.2633 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0 )
+}
+
 [node name="Level0" type="Node"]
 script = ExtResource( 4 )
 
@@ -205,6 +212,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.790636, 0 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19.4643 )
 
 [node name="CanvasLayer" parent="." instance=ExtResource( 15 )]
+
+[node name="Node" type="Node" parent="."]
+
+[node name="RailPath" parent="Node" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0549736, -0.468624, 0.0662956 )
+curve = SubResource( 43 )
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Node/RailPath"]
+transform = Transform( 0.3, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.817596, 0 )
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
 
 [editable path="Player"]
 [editable path="Player/CameraRig"]

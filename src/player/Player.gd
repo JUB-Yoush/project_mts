@@ -31,6 +31,10 @@ var skate_force: = Vector2.ZERO
 var input_vector:Vector3
 var move_direction:Vector3
 
+# rail stuff
+var old_pos:Vector3
+
+
 signal left_rail
 signal energy_changed(energy)
 signal state_changed(state)
@@ -65,6 +69,7 @@ func make_relative_input_vector(input_vector:Vector3) -> Vector3:
 	
 
 func _physics_process(delta: float) -> void:
+	print(velocity)
 	match _state:
 		States.MOVING:
 			state_moving(delta)
@@ -81,7 +86,6 @@ func _physics_process(delta: float) -> void:
 	
 # STATE SETTER------------------
 func set_state(new_state:int):	
-	#print(new_state)
 	# this method is used to undo any state specific stuff before you get placed into another state
 	match _state:
 		States.MOVING:
@@ -89,7 +93,10 @@ func set_state(new_state:int):
 		States.IN_AIR:
 			pass
 		States.ON_RAIL:
+			velocity += move_direction * speed * 5
+			move_and_slide(velocity,Vector3.UP	)
 			emit_signal("left_rail")
+			
 		States.AIMING:
 			crosshair.visible = false
 			pass
@@ -98,6 +105,7 @@ func set_state(new_state:int):
 			
 	
 	_state = new_state
+	old_pos = translation
 	emit_signal("state_changed",new_state)
 
 # OTHER SETTERS -------------------
@@ -159,8 +167,15 @@ func state_in_air(delta:float):
 	toss()
 #---
 func state_on_rail(delta:float):
+	var new_pos := translation
+	var pos_delta := old_pos - new_pos
+	
+	
+	old_pos = new_pos
+	
 	if Input.is_action_just_pressed("jump"):
-		set_state(States.IN_AIR)
+		emit_signal("left_rail")
+#		set_state(States.IN_AIR)
 	set_energy(energy + (rail_energy_refil * delta))
 		#velocity.y += jump_impulse
 	aim()

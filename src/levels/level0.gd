@@ -5,8 +5,10 @@ var mailbox_count:int
 var mail_delivered:int
 var quota_reached:bool
 var time := 0.0
+var player_respawn_position:Position3D
 onready var player:Player = get_node("Player")
 func _ready() -> void:
+	player_respawn_position = $SpawnPos
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mailbox_count = mailboxes.get_child_count()
 	time = 0
@@ -48,3 +50,11 @@ func _process(delta: float) -> void:
 	$CanvasLayer/UI/Panel/VBoxContainer/TimeLabel.text = ("TIME: %02d:%02d.%02d" % [minutes, seconds,ms])
 	#var str_elapsed = "%02d : %02d.%02d" % [minutes, seconds,ms]
 	#print("elapsed : ", str_elapsed)
+
+func player_passed_checkpoint(position:Position3D):
+	player_respawn_position = position
+	pass
+
+func respawn_player():
+	player.velocity = Vector3.ZERO
+	player.global_transform = player_respawn_position.global_transform

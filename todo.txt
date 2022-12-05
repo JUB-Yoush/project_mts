@@ -37,15 +37,14 @@ MOVEMENT MECHANICS:
 
 
 NEED:
-- map all the fake rails in the levels with curves so they work, MAKE EACH CURVE UNIQUE SO IT DOSEN'T OVERWRITE THE LAST ONE 
-- place all the mailboxes
+- fix rail dismount
+- boost 
+- score system, no miss multiplier
 - make a ending screen that show's some stats (time, mail delivered,score) and make a letter grade 
-- code pit areas and respawn points, failing in a pit decreases score and brings you back to respawn
 - make sure the level is playable through to the end with no flying
 - ui connections
 
 WANT:
-- time stays the same engine speed even when slowed down (don't spend time aiming too long)
 - movement
 - make movement not bad
 - make rails not bad

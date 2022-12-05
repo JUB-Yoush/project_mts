@@ -8,10 +8,14 @@ onready var area := $RailFollowArea
 onready var remoteTransform = $RemoteTransform
 onready var player:Player = get_parent().get_parent().get_parent().get_node("Player")
 var railgrind_speed:float = 0.2
+var max_railgrind_speed:float = 0.25
+var min_railgrind_speed:float = 0.05
 var rail_delta:float
 var player_riding:bool = false
 var original_rotation = rotation
 var game_speed:float = 1
+var rm_pos:Vector3
+var rm_delta:Vector3
 #when body entered:
 # make sure body is player
 # check that the player is hitting from the bottom (maybe make a feet hitbox?)
@@ -31,7 +35,7 @@ func _ready() -> void:
 
 
 func on_area_entered(area:Area):
-	if player_riding == false:
+	if player_riding == false: #and player.velocity.y <=0:
 		#print('moogus')
 		#print('on_area_entered')
 		#player = area.get_parent()
@@ -43,12 +47,14 @@ func on_area_entered(area:Area):
 		yield(get_tree().create_timer(0.02),"timeout")
 		set_offset(get_parent().curve.get_closest_offset(get_parent().followTarget.get_translation()))
 		rail_delta = sign(unit_offset - old_offset)
+		
 		if rail_delta != 0:
 			player.set_state(player.States.ON_RAIL)
 			remoteTransform.remote_path = NodePath("../../../../Player")
+			rm_pos = remoteTransform.global_translation
 		else:
 			on_player_left_rail()
-			print(rail_delta)
+			#print(rail_delta)
 		
 		
 		
@@ -63,15 +69,17 @@ func on_area_exited(area:Area):
 	
 
 func on_player_left_rail():
-	print('player left rail')
 	player_riding = false
+	railgrind_speed = 0.2
 	remoteTransform.remote_path = ""
+	yield(get_tree().create_timer(0.02),"timeout")
 	#player.disconnect("left_rail",self,"on_player_left_rail")
 	pass
 
 
 func _physics_process(delta: float) -> void:
 	#print(player_riding)
+	
 	if player.is_aiming:
 		game_speed = 0.2
 	else:
@@ -79,7 +87,22 @@ func _physics_process(delta: float) -> void:
 		pass
 	rotation = original_rotation
 	if player_riding:
-		offset += ((rail_delta/5 * railgrind_speed) * player.velocity.length()) * game_speed
+		var new_rm_pos:Vector3 = remoteTransform.global_translation
+		rm_delta = new_rm_pos - rm_pos
+		rm_pos = new_rm_pos
+		#print(rm_delta.y)
+#		if rm_delta.y < 0:
+#			railgrind_speed = lerp(railgrind_speed,max_railgrind_speed,abs(rm_delta.y/10))
+#		elif rm_delta.y > 0:
+#			railgrind_speed = lerp(railgrind_speed,min_railgrind_speed,abs(rm_delta.y/10))
+#			#railgrind_speed = min(railgrind_speed +abs(rm_delta.y/10),max_railgrind_speed)
+		
+
+		#print(((rail_delta/5 * railgrind_speed) * player.velocity.length()) * game_speed)
+		#print(((rail_delta/5 * railgrind_speed) * player.velocity.length()) * game_speed)
+		var updated_offset:float = (rail_delta/5 * railgrind_speed) * player.velocity.length() * game_speed  
+		#prints(updated_offset,railgrind_speed)
+		offset += (updated_offset)
 		
 		
 	

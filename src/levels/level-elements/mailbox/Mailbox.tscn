@@ -8,8 +8,8 @@
 radius = 1.19437
 
 [sub_resource type="CapsuleShape" id=6]
-radius = 0.549985
-height = 0.397858
+radius = 0.723205
+height = 0.352692
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.5

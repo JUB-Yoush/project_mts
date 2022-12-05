@@ -1,4 +1,4 @@
-[gd_scene load_steps=324 format=2]
+[gd_scene load_steps=326 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=2]
@@ -11,7 +11,9 @@
 [ext_resource path="res://textures/dgreyb.png" type="Texture" id=9]
 [ext_resource path="res://textures/greyb.png" type="Texture" id=10]
 [ext_resource path="res://textures/red2b.png" type="Texture" id=11]
+[ext_resource path="res://src/levels/level-elements/Checkpoint.tscn" type="PackedScene" id=12]
 [ext_resource path="res://textures/greenbi.png" type="Texture" id=13]
+[ext_resource path="res://src/levels/level-elements/Pit.tscn" type="PackedScene" id=14]
 [ext_resource path="res://src/levels/level-elements/mailbox/Mailbox.tscn" type="PackedScene" id=16]
 [ext_resource path="res://src/levels/level-elements/RailPath.tscn" type="PackedScene" id=17]
 [ext_resource path="res://src/ui/ui.tscn" type="PackedScene" id=18]
@@ -1935,14 +1937,12 @@ shape = SubResource( 2223 )
 [node name="CanvasLayer" parent="." instance=ExtResource( 18 )]
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
-transform = Transform( 0.0172954, 0, -0.99985, 0, 1, 0, 0.99985, 0, 0.0172954, 23.3312, 14.6424, -122.796 )
+transform = Transform( 0.0172954, 0, -0.99985, 0, 1, 0, 0.99985, 0, 0.0172954, 26.297, 14.6424, -42.2688 )
 
 [node name="DebugArrows" parent="." instance=ExtResource( 6 )]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 16 )
-
-[node name="MailBox" parent="." instance=ExtResource( 16 )]
 
 [node name="Rails" type="Node" parent="."]
 
@@ -2004,7 +2004,7 @@ transform = Transform( -0.659783, -0.0289544, -0.750898, -0.0806211, 0.996217, 0
 curve = SubResource( 2224 )
 
 [node name="RailFollow" parent="Rails/RailPath9" index="0"]
-transform = Transform( 0.999261, 0.0357903, -0.0140587, -0.0356187, 0.99929, 0.0122779, 0.0144881, -0.011768, 0.999826, -0.405334, -0.0790253, 0.889725 )
+transform = Transform( 0.999261, 0.0357903, -0.0140587, -0.0356187, 0.99929, 0.0122779, 0.0144881, -0.011768, 0.999826, -0.0825729, 0.198067, 0.0336456 )
 
 [node name="RailPath10" parent="Rails" instance=ExtResource( 17 )]
 transform = Transform( -0.659783, -0.0289544, -0.750898, -0.0806211, 0.996217, 0.0324245, 0.747119, 0.0819314, -0.659621, -0.390542, -15.9224, -154.038 )
@@ -2121,6 +2121,65 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.391531, -0.208939, 0 )
 [node name="MeshInstance" parent="Goal" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.257401, 0.911156, 0 )
 
+[node name="Checkpoints" type="Node" parent="."]
+
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9588, 10.2981, -38.8946 )
+
+[node name="Checkpoint2" parent="Checkpoints" instance=ExtResource( 12 )]
+transform = Transform( 0.0574769, 0, 0.998347, 0, 1, 0, -0.998347, 0, 0.0574769, 29.7554, 17.52, -123.78 )
+
+[node name="Checkpoint3" parent="Checkpoints" instance=ExtResource( 12 )]
+transform = Transform( 0.947819, 0, -0.31881, 0, 1, 0, 0.31881, 0, 0.947819, -24.1977, 6.28905, -113.168 )
+
+[node name="SpawnPos" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1373, 14.8677, 12.6712 )
+
+[node name="Pit" type="Node" parent="."]
+
+[node name="Pit2" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.6027, 0.0437865, 7.0436 )
+visible = false
+
+[node name="Pit10" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.6027, 0.0437865, -13.0171 )
+visible = false
+
+[node name="Pit5" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.6027, 0.0437865, -16.5606 )
+visible = false
+
+[node name="Pit3" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4767, 1.0851, -77.7333 )
+visible = false
+
+[node name="Pit6" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30.32, 1.0851, -77.7333 )
+visible = false
+
+[node name="Pit7" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.94858, -26.9545, -127.925 )
+visible = false
+
+[node name="Pit8" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.94858, -25.9503, -167.924 )
+visible = false
+
+[node name="Pit9" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 0.966318, 0.257352, 0, -0.257352, 0.966318, 6.14974, -34.4331, -215.032 )
+visible = false
+
+[node name="CollisionShape" parent="Pit/Pit9" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37891, 0.0492783, -18.8984 )
+visible = false
+
+[node name="MeshInstance" parent="Pit/Pit9" index="1"]
+visible = false
+
+[node name="Pit4" parent="Pit" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.59355, 0.950896, -56.772 )
+visible = false
+
 [editable path="Rails/RailPath"]
 [editable path="Rails/RailPath3"]
 [editable path="Rails/RailPath4"]
@@ -2132,3 +2191,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.257401, 0.911156, 0 )
 [editable path="Rails/RailPath10"]
 [editable path="Rails/RailPath11"]
 [editable path="Goal"]
+[editable path="Checkpoints/Checkpoint"]
+[editable path="Pit/Pit9"]

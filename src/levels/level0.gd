@@ -38,10 +38,11 @@ func on_mailbox_delivered():
 		 score_str += "0"
 	score_str += str(score)
 	$CanvasLayer/UI/Panel/VBoxContainer/ScoreLabel.text = ("SCORE: %s" % [score_str])
-	quota_reached = (mail_delivered == mailbox_count/2)
+	quota_reached = (mail_delivered >= mailbox_count/2)
+	print(mail_delivered >= mailbox_count/2)
 	if quota_reached:
 		$Goal.visible = true
-	print('yay mail')
+	#print('yay mail')
 
 func on_player_reached_goal():
 	if quota_reached:

@@ -5,7 +5,7 @@ export var is_y_inverted:= false
 export var auto_rotate_speed := 0.01
 export var deadzone_backwards: = 0.3
 export var sensitivity_gamepad_default:= Vector2(2.5,2.5)
-export var sensitivity_gamepad_aiming:= Vector2(2.5,2.5)
+export var sensitivity_gamepad_aiming:= Vector2(2.5*5,2.5*5)
 export var sensitivity_mouse_default: =Vector2(0.1,0.1)
 export var sensitivity_mouse_aiming: =Vector2(0.5,0.5)
 

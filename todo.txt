@@ -53,3 +53,15 @@ WANT:
 - add... slopes?, y'know there still aren't slopes right
 
 
+
+FOR FINAL BUILD:
+- add animation on double jump
+- score system, lose score when you fall in pit
+- pit area is incosistent
+- maybe fix rails just a little bit
+- import rei properly
+
+- final models
+- final textures
+- sound effects
+- music

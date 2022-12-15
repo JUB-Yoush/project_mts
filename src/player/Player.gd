@@ -175,7 +175,7 @@ func state_in_air(delta:float):
 	toss()
 #---
 func state_on_rail(delta:float):
-	djumped= true
+	#djumped= true
 	var new_pos := translation
 	var pos_delta := old_pos - new_pos
 	
